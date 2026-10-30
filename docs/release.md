@@ -74,6 +74,29 @@ Applicationが利用するpackage versionのSource of Truthは、そのApplicati
 
 `ui-platform`をforkして利用する場合は、npm packageを利用組織のscopeでpublishするためpackage releaseはfork側でも行います。上記「forkでの運用」の対象はPlatform / Standards / Playbookであり、`ui-platform`のrelease方法は`ui-platform` READMEを正とします。
 
+## Applicationのversion
+
+この文書の対象は共有資産ですが、Applicationのversionの付け方もリポジトリの種類で分けて揃えます（dx-portal ADR-0048 決定5）。各Applicationの具体的な手順は、そのリポジトリのADRと`justfile`を正とします。
+
+| 種類 | リポジトリ | version | release方法 |
+|---|---|---|---|
+| 利用者がversionを選ぶ共有資産 | `ai-dev-platform`・`ai-dev-standards`・`ai-dev-playbook`・`ui-platform`・`pdf-one-web` | SemVer | Release Please（上記） |
+| 本番が1つのWeb Application | `dx-portal`・`jazmf-directory` | **release日**（`vYYYY.M.D`） | `just release` |
+| 配布するDesktop Application | `stockroom`・`feedability`・`desktop-apps` | SemVer | tag方式 |
+
+Desktop ApplicationがSemVerのままなのは、配布物のファイル名・アプリ内アップデート・利用者への表示にversionが出るためです。
+
+### Web Applicationのversion（release日）
+
+dx-portal ADR-0057 / jazmf-directory ADR-0014 で決めた形です（2026-10-30から）。
+
+- versionは**releaseした日（日本時間）**とし、ゼロ埋めはしない。例: `v2026.11.3` = 2026年11月3日にreleaseしたもの
+- 同じ日に2回目をreleaseするときは末尾に英字を付ける。2回目は`b`、3回目は`c`（`v2026.11.3b`・`v2026.11.3c`）。1回目には付けない（`a`は使わない）
+- 並び順は`v2026.11.3` < `v2026.11.3b` < `v2026.11.3c` < `v2026.11.10`となる（`sort -V`と同じ）
+- versionはPRで決めず、`just release`がreleaseするときに決める。tagとGitHub Releaseは本番に出たものにだけ付ける。GitHub Releaseの題には日付を日本語で添える（`v2026.11.3b（2026年11月3日・2回目）`）
+- 英字が付くことがあるため、SemVer互換ではない。`GET /api/status/`の`version`は人が読む文字列として扱い、SemVerとして比較する道具に渡さない
+- 切り替え前の`v2026.10.1`だけは「2026年10月の1回目」の意味で、日付ではない
+
 ## Release notesの最小項目
 
 PlatformのRelease notesには、少なくとも次を記載します。
