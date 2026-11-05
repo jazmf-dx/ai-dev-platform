@@ -9,9 +9,12 @@ Platformへすべての知識・実装を集約せず、責務ごとに分離し
 ```text
 ai-dev-platform/
 ├── ai/
-│   └── ONBOARDING.md       AI agentが最初に読む唯一の入口
+│   ├── ONBOARDING.md       AI agentが最初に読む唯一の入口
+│   └── COMMITMENTS.md      全リポジトリの CLAUDE.md の先頭に置く「作業の約束」の正本
+├── decisions/              jazmf-dx の組織横断の ADR（モノレポ移行までの置き場）
 ├── docs/
 │   ├── adoption.md         Platformの導入・Applicationへの適用
+│   ├── direction-2026-11.md 2026-11 に決めた方針と進め方
 │   └── release.md          共有資産のversion・release方針
 ├── recommendations/        現時点の選択の正本
 ├── standards/              [submodule: ai-dev-standards]
