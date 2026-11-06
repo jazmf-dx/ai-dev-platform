@@ -15,6 +15,11 @@ jazmf-dx の **アプリをまたぐ** 判断を置く。1 つのアプリに閉
 | [0002](adr-0002-pr-gates-runner-and-staging.md) | PR ごとの検査・self-hosted runner・ステージングの自動化 | 2026-11-05 | 採用 |
 | [0003](adr-0003-ui-screen-types-and-shared-shell.md) | UI は画面の型とナビを正にし、共通シェルを配る | 2026-11-05 | 採用 |
 | [0004](adr-0004-agent-working-agreement.md) | エージェントへの指示の持ち方（約束・CLAUDE.md の上限・検査化・セッションの単位） | 2026-11-05 | 採用 |
+| [0005](adr-0005-jobs-on-procrastinate.md) | バックグラウンド処理は Procrastinate のジョブに寄せ、ホストの crontab を無くす | 2026-11-06 | 採用 |
+| [0006](adr-0006-shared-code-and-ui-kit-in-monorepo.md) | 共通コードはモノレポの workspace で配り、UI Kit もモノレポに取り込む | 2026-11-06 | 採用 |
+| [0007](adr-0007-rules-live-in-monorepo.md) | ルールはモノレポの docs/ に畳み、個人側 upstream への追従をやめる | 2026-11-06 | 採用 |
+
+保留中: **フロントの境界**（Django テンプレート + Islands のままか、画面単位の React を広げるか）は 2026-11-06 に「別でしっかり議論する」と決めた。それまでは ai-dev-standards ADR-0002 の線（テンプレートが土台・対話 UI は Islands・htmx は部分更新）を既定とする。
 
 背景と進め方の全体は [docs/direction-2026-11.md](../docs/direction-2026-11.md)。
 根拠となった調査は [dx-portal/docs/reviews/2026-11-05-platform-review.md](https://github.com/jazmf-dx/dx-portal/blob/main/docs/reviews/2026-11-05-platform-review.md)。
