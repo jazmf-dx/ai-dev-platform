@@ -30,8 +30,12 @@
 | ステージング | 常に main が動いている場所。全アプリを 1 ホストに。本番 DB の週次コピーも cron。人が見るのは変えた画面だけ | [0002](../decisions/adr-0002-pr-gates-runner-and-staging.md) |
 | UI/UX | 画面の型とナビを正にし、共通シェルを配る。部品は Kit、色は tone。Focus App は例外。IA 文書 1 枚 | [0003](../decisions/adr-0003-ui-screen-types-and-shared-shell.md) |
 | エージェント | 約束 10 行を全 CLAUDE.md の先頭に。CLAUDE.md は 100 行以内。ルールは検査に。1 リポジトリ = 1 セッション。クラウド環境を定義。モードの使い分け | [0004](../decisions/adr-0004-agent-working-agreement.md) |
-| 技術スタック | Django を続ける。変えるとしても衛星 1 本で試す | （レビュー §4.3） |
-| 運用 | 定期ジョブはアプリ内の台帳に記録し `/api/status/` に出す。status を 1 か所が巡回。バックアップ・status・build info は雛形に入れる | （ADR は雛形を作るときに） |
+| 技術スタック | Django を続ける。変えるとしても衛星 1 本で試す。Go などの別言語は要らない（棚卸し: 重い処理はブラウザ内、サーバーの重さは待ち時間） | （レビュー §4.3・ADR-0005 コンテキスト） |
+| バックグラウンド処理 | Procrastinate を全アプリへ横展開し、worker コンテナを足す。定期処理もそこで持ち、ホストの crontab を無くす。最終成功時刻を `/api/status/` に出す。Redis は入れない | [0005](../decisions/adr-0005-jobs-on-procrastinate.md) |
+| 共通コードとパッケージ | Python は uv workspace、UI Kit は ui-platform を subtree で取り込み bun workspace。GitHub Packages への publish は外で使う人がいるときだけ。雛形 `just new-app` | [0006](../decisions/adr-0006-shared-code-and-ui-kit-in-monorepo.md) |
+| ルールの置き場 | モノレポの `docs/` に畳む（原則 1 枚 + 圧縮した Standard + Playbook + Recommendations）。個人側 upstream への追従をやめ、3 リポジトリはアーカイブ。desktop-platform は desktop-apps へ | [0007](../decisions/adr-0007-rules-live-in-monorepo.md) |
+| フロントの境界 | **保留**。別でしっかり議論する。それまでは Standard（テンプレートが土台・対話 UI は Islands・htmx は部分更新）を既定とする | — |
+| 運用 | status を 1 か所が巡回。バックアップ・status・build info は雛形に入れる（定期ジョブの台帳は ADR-0005 で解決） | — |
 
 ## 進め方
 
@@ -49,6 +53,8 @@
 
 ## まだ決めていないこと
 
+- **フロントの境界**（2026-11-06 に保留。別の回で議論する。論点: 画面単位の React をどこまで許すか、Alpine の撤去の速度、htmx 2 への統一、チャートの正本）
+- **認証の一本化**（dx-portal のマジックリンク・Garoon 入口と衛星の authentik OIDC が並び、SSO がつながらない。ADR-0032 のリスク受容と合わせて別途）
 - モノレポの名前、dx-portal を入れる時期、ports 台帳の生成方法（段 5 の最初に決める）
 - self-hosted runner を置くホスト（候補: ステージングの `128.118.28.178`）とネットワークの条件
 - IA 文書の所有者（`apps/adminnav/registry.py` を持つ人が自然）
